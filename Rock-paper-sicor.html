@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rock Paper Scissors - Advanced Version</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fdfdfd;
+      text-align: center;
+      padding-top: 50px;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .emoji-button {
+      font-size: 60px;
+      padding: 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.2s;
+      background-color: #eee;
+    }
+
+    .emoji-button:hover {
+      transform: scale(1.2);
+      background-color: #ddd;
+    }
+
+    #result, #choices, #scoreboard {
+      margin-top: 20px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Rock 🪨 Paper 📄 Scissors ✂️</h1>
+
+  <div>
+    <button class="emoji-button" onclick="play('rock')">🪨</button>
+    <button class="emoji-button" onclick="play('paper')">📄</button>
+    <button class="emoji-button" onclick="play('scissors')">✂️</button>
+  </div>
+
+  <div id="choices"></div>
+  <div id="result"></div>
+  <div id="scoreboard">Score - You: 0 | Computer: 0</div>
+
+  <audio id="win-sound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+  <audio id="lose-sound" src="https://actions.google.com/sounds/v1/cartoon/clang.ogg"></audio>
+  <audio id="draw-sound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+
+  <script>
+    let userScore = 0;
+    let computerScore = 0;
+
+    function play(userChoice) {
+      const choices = ['rock', 'paper', 'scissors'];
+      const emojis = { rock: '🪨', paper: '📄', scissors: '✂️' };
+      const winConditions = {
+        rock: 'scissors',
+        paper: 'rock',
+        scissors: 'paper'
+      };
+
+      const computerChoice = choices[Math.floor(Math.random() * 3)];
+      const userEmoji = emojis[userChoice];
+      const compEmoji = emojis[computerChoice];
+
+      document.getElementById('choices').innerText = `You: ${userEmoji} vs Computer: ${compEmoji}`;
+
+      let resultText = '';
+      if (userChoice === computerChoice) {
+        resultText = "It's a draw!";
+        document.getElementById('draw-sound').play();
+      } else if (winConditions[userChoice] === computerChoice) {
+        resultText = "You win! 🎉";
+        userScore++;
+        document.getElementById('win-sound').play();
+      } else {
+        resultText = "You lose! 😢";
+        computerScore++;
+        document.getElementById('lose-sound').play();
+      }
+
+      document.getElementById('result').innerText = resultText;
+      document.getElementById('scoreboard').innerText = `Score - You: ${userScore} | Computer: ${computerScore}`;
+    }
+  </script>
+
+</body>
+</html>
